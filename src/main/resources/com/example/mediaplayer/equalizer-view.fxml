@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mediaplayer.EqualizerView">
+   <children>
+      <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="361.0" prefWidth="600.0">
+               <children>
+                  <HBox prefHeight="349.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Slider fx:id="band0" majorTickUnit="4.0" max="12.0" min="-24.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true">
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Slider>
+                        <Slider fx:id="band1" majorTickUnit="4.0" max="12.0" min="-24.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true">
+                           
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Slider>
+                        <Slider fx:id="band2" majorTickUnit="4.0" max="12.0" min="-24.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true">
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Slider>
+                        <Slider fx:id="band3" majorTickUnit="4.0" max="12.0" min="-24.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true">
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Slider>
+                        <Slider fx:id="band4" majorTickUnit="4.0" max="12.0" min="-24.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true">
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Slider>
+                        <Slider fx:id="band5" majorTickUnit="4.0" max="12.0" min="-24.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true">
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Slider>
+                        <Slider fx:id="band6" majorTickUnit="4.0" max="12.0" min="-24.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true">
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Slider>
+                        <Slider fx:id="band7" majorTickUnit="4.0" max="12.0" min="-24.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true">
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Slider>
+                        <Slider fx:id="band8" majorTickUnit="4.0" max="12.0" min="-24.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true">
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Slider>
+                        <Slider fx:id="band9" majorTickUnit="4.0" max="12.0" min="-24.0" minorTickCount="1" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Slider>
+                        
+                     </children></HBox>
+               </children></AnchorPane>
+            <AnchorPane prefHeight="63.0" prefWidth="600.0">
+               <children>
+                  <CheckBox fx:id="isEnabledCheckBox" mnemonicParsing="false" onAction="#onEnable" prefHeight="52.0" prefWidth="154.0" selected="true" text="Equalizer enabled" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="446.0" AnchorPane.topAnchor="0.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </CheckBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
