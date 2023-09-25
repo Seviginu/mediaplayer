@@ -46,6 +46,7 @@ public class PlaylistsView implements Initializable {
             throw new RuntimeException(ex);
         }
         PlaylistSaver.save(currentPlaylist, file);
+        currentPlaylist.setName(name);
         playlistBox.getItems().add(currentPlaylist);
     }
 

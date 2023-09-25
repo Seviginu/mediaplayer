@@ -33,24 +33,14 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.Socket;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
-import java.util.Map;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
     @FXML
+    private Slider volumeSlider;
+    @FXML
     private Slider progressSlider;
-    @FXML
-    private BorderPane wavePane;
-    @FXML
-    private Label welcomeText;
     @FXML
     private TableView<Track> table;
     @FXML
@@ -64,15 +54,11 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         trackName.setCellValueFactory(new PropertyValueFactory<>("name"));
 
+        table.setOnKeyReleased(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
+                if(table.getSelectionModel().getSelectedItem().getPath().getAbsolutePath().equals(media.getSource())) player.stop();
+                table.getItems().remove(table.getSelectionModel().getSelectedItem());
 
-        table.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
-                    if(table.getSelectionModel().getSelectedItem().getPath().getAbsolutePath().equals(media.getSource())) player.stop();
-                    table.getItems().remove(table.getSelectionModel().getSelectedItem());
-
-                }
             }
         });
 
@@ -82,6 +68,7 @@ public class MainController implements Initializable {
         FileChooser chooser = new FileChooser();
         chooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("MEDIA", "*.mp3", "*.wav"));
         File trackFile = chooser.showOpenDialog(((Node)e.getSource()).getScene().getWindow());
+        if (trackFile == null) return;
         playlist.add(new Track(trackFile));
         table.getItems().add(new Track((trackFile)));
     }
@@ -91,23 +78,7 @@ public class MainController implements Initializable {
         setTrack();
     }
 
-    private void setTrack(){
-        File file = table.getSelectionModel().getSelectedItem().getPath();
-        media = new Media(file.toURI().toString());
-        player = new MediaPlayer(media);
-        player.setOnEndOfMedia(this::setNextTrack);
-        player.setOnReady(() -> {
-            progressSlider.setMax(media.getDuration().toSeconds());
-            System.out.println("Duration: "+media.getDuration().toMinutes());
-            player.play();
-        });
-        player.currentTimeProperty().addListener(new ChangeListener<>() {
-            @Override
-            public void changed(ObservableValue<? extends Duration> observableValue, Duration duration, Duration t1) {
-                progressSlider.setValue(t1.toSeconds());
-            }
-        });
-
+    private void setProgressSlider(){
         progressSlider.setOnMouseDragged(mouseEvent -> {
             player.seek(Duration.seconds(progressSlider.getValue()));
         });
@@ -119,23 +90,32 @@ public class MainController implements Initializable {
         progressSlider.setOnMouseReleased(mouseEvent -> {
             player.setMute(false);
         });
+    }
+
+    private void setVolumeSlider(){
+        player.currentTimeProperty().addListener((observableValue, duration, t1) -> progressSlider.setValue(t1.toSeconds()));
+        volumeSlider.valueProperty().bindBidirectional(player.volumeProperty());
+    }
+
+    private void setTrack(){
+        File file = table.getSelectionModel().getSelectedItem().getPath();
+        media = new Media(file.toURI().toString());
+        player = new MediaPlayer(media);
+        player.setOnEndOfMedia(this::setNextTrack);
+        player.setOnReady(() -> {
+            progressSlider.setMax(media.getDuration().toSeconds());
+            player.play();
+        });
+        setVolumeSlider();
+
+        setProgressSlider();
 
     }
 
     public void onPlay(ActionEvent event)   {
-        try {
-            Duration total = media.getDuration();
-            System.out.println(total.toSeconds());
-            System.out.println(total);
-            System.out.println(total.toMillis());
-            System.out.println(player.getCurrentTime());
-            System.out.println(player.getCurrentTime().toSeconds());
-
-        }
-        catch (Exception exception) {}
-
         if(player == null && table.getSelectionModel().getSelectedItem() == null){
             table.getSelectionModel().selectFirst();
+            if(table.getSelectionModel().getSelectedItem() == null) return;
         }
         if(player != null && player.getStatus() == MediaPlayer.Status.PAUSED) player.play();
         else if (player == null || player.getStatus() == MediaPlayer.Status.STOPPED ) {
@@ -145,10 +125,12 @@ public class MainController implements Initializable {
     }
 
     public void onPause(ActionEvent event) {
-        player.pause();
+        if(player != null)
+            player.pause();
     }
     public void onStop(ActionEvent event) {
-        player.stop();
+        if(player != null)
+            player.stop();
     }
 
     public void onPlaylists(ActionEvent event) throws IOException {
@@ -162,6 +144,7 @@ public class MainController implements Initializable {
     }
 
     public void onEqualizer(ActionEvent event) throws IOException {
+        if(player == null) return;
         Stage newWindow = new Stage();
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("equalizer-view.fxml"));
         newWindow.setScene(new Scene(loader.load()));
